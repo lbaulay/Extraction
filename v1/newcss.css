@@ -1,0 +1,63 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 1 juin 2017, 17:15:45
+    Author     : lbaulay
+*/
+
+body {
+    font-size: 14px;
+}
+
+.affichageInde{
+    width: 70%;
+    height: 600px;
+    float: right;
+    overflow: auto;
+}
+.tabCSV{
+    border-collapse: collapse;
+}
+.tabCSV tr{
+    border-color: black;
+    border-style: solid;
+}
+.tabCSV td{
+    border-color: #707070;
+    border-style: solid;
+    border-bottom: none;
+    border-top: none;
+    font-size: 14px;
+}
+
+#ligne0{
+    background-color: highlight;
+}
+#ligne1 {
+    background-color: #F9F9F9;
+}
+ul{
+    list-style-type:none;
+}
+.sousDossier li {
+    list-style-type: "- ";
+}
+#date{
+    float:left;
+    width: 20%;
+    font-size: 16px;
+}
+
+.tabCSV td:hover{
+    background-color: #CECECE;
+}
+.arbo>a {
+    color: black;
+    text-decoration: none;
+}
+.sousDossier a {
+    text-decoration: none;
+}
