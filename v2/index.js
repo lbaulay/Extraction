@@ -5,47 +5,14 @@
  */
 const URL = "../date";
 
-/*
-function onClick(id){
-    var elem = document.getElementById(id);
-
-    if (elem.className == "arbo") { // Permet d'afficher ou masquer le contenu du dossier
-        var ul = document.getElementById(id.slice(2,id.length)); // l'id de elem est le mot li accoler a l'id de la liste. pour obtenir l'id de la liste il faut supprimer le mots li de l'id
-        ul.style.display == "block" ? ul.style.display = "none" : ul.style.display = "block";
-    }
-    
-    else if (elem.className == "fichier") {
-        /* Si tabCSV existe deja on le supprime avant d'afficher une nouvelle table*/
-        /*if (document.getElementsByClassName("tabCSV").length >0) {
-            document.getElementsByClassName("affichageInde")[0].removeChild(document.getElementsByClassName("tabCSV")[0]);
-        }*/
-        
-        /* On creer le tableau de previsualisation */
-       /* var parent = elem.parentNode.parentNode.id;
-        Papa.parse(URL+"/"+id, {
-            download: true,
-            complete: function(results) {
-                var div = document.getElementsByClassName("affichageInde")[0];
-                var nomFichier = id.split("/")[1];
-                var texte = 'Ouvrir le fichier <a href="'+URL+"/"+id+'">' + parent+' - '+nomFichier+'</a></p>';
-                document.getElementById("titreAffichage").innerHTML = texte;
-                var table = ArrayToTab(results.data);
-                /* On ajoute le tableau au DOM, en enfant de <div affichageInde */
-                /*
-                div.appendChild(table);
-            }
-        });
-        
-    }
-}
-*/
-
-$(".arbo").on("click",function(){
-    this.style.display == "block" ? this.style.display = "none" : this.style.display = "block";
+$(".arbo>a").on("click",function(){
+    console.log($(this).parent());
+    var elem = $(this).parent().children('.sousDossier')[0];
+    elem.style.display == "block" ? elem.style.display = "none" : elem.style.display = "block";
 });
 
 $(".fichier").on("click",function(){
-    var elem = this;
+    var elem = $(this);
     var nomFichier = elem.data("nom-fichier");
     var date = elem.data("date");
     if (document.getElementsByClassName("tabCSV").length >0) {
@@ -53,12 +20,11 @@ $(".fichier").on("click",function(){
     }
 
     /* On creer le tableau de previsualisation */
-    var parent = elem.parentNode.parentNode.id;
     Papa.parse(URL+"/"+date+"/"+nomFichier, {
         download: true,
         complete: function(results) {
             var div = document.getElementsByClassName("affichageInde")[0];
-            var texte = 'Ouvrir le fichier <a href="'+URL+"/"+date+"/"+nomFichier+'">' + parent+' - '+nomFichier+'</a></p>';
+            var texte = 'Ouvrir le fichier <a href="'+URL+"/"+date+"/"+nomFichier+'">' + date+' - '+nomFichier+'</a></p>';
             document.getElementById("titreAffichage").innerHTML = texte;
             var table = ArrayToTab(results.data);
             /* On ajoute le tableau au DOM, en enfant de <div affichageInde */

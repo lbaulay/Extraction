@@ -5,6 +5,7 @@
             Page d'accueil avec Javascript
         </title>
         <link rel="stylesheet" type="text/css" href="newcss.css">
+        <script type="text/javascript" src="../jquery-3.2.1.js"></script>
         <meta charset="UTF-8">
     </head>
     <body>
@@ -47,6 +48,7 @@ if ($dossier = opendir(URL)) :?>
                     $listeFichierCSV[] = $fichierExtrait;
                 }
             }
+            sort($listeFichierCSV);
             foreach ($listeFichierCSV as $fichierCSV) : ?>
                 <li><a class="fichier" data-date="<?=$dossierDate?>" data-nom-fichier="<?=$fichierCSV?>"><?=$fichierCSV?></a></li>
 <?php
@@ -68,7 +70,7 @@ echo "</ul>";
 
 
         <script type="text/javascript" src="./index.js"></script>
-        <script type="text/javascript" src="../jquery-3.2.1.js"></script>
+
         <script type="text/javascript" src="../papaparse.min.js"></script>
     </body>
 </html>
