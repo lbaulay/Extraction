@@ -5,7 +5,7 @@
  */
 const URL = "../date";
 
-$(".arbo>a").on("click",function(){ // Role d'acoordeon
+$(".arbo>a").on("click",function(){ // Role d'accordeon
     var elem = $(this).parent().children('.sousDossier')[0];
     elem.style.display == "block" ? elem.style.display = "none" : elem.style.display = "block";
 });
@@ -33,19 +33,29 @@ $(".fichier").on("click",function(){// Role d'affichage du fichier csv selection
     });
 });
 
-$(".masquerAccordeon").on("click",function(){
-    if($(this).attr("status")==="off"){
+$(".masquerAccordeon").on("click",function(){ // Role d'affichage du menu si le bouton est cliqué
+    if($(this).attr("status")==="off"){// Si le menu est affiché, on augmente la taille du div contenant le tableau de visualisation CSV, on masque le menu et on change le titre du bouton
+        fullTab();
         $(".menu").css('display', "none");
         $(this).attr("status","on");
-        $(this).innerHTML = ">>";
-    } else {
-        console.log("ok");
+        this.innerText = "Afficher le menu";
+    } else { // Si le menu est masqué, on le ré-affiche, on réduit la taille du div contenant le tableau de visualisation CSV et on change le titre du bouton
+        reductionTab();
         $(".menu").css('display', "block");
         $(this).attr("status","off");
-        $(this).innerHTML = ">>";
+        this.innerText= "Masquer le menu";
+        
+        
     }
 });
 
+
+function fullTab(){
+    $(".affichageInde").css("width","auto");
+}
+function reductionTab(){
+    $(".affichageInde").css("width","70%");
+}
 
 function ArrayToTab(arrayData) { // Prend en argument un Array avec les valeurs CSV et le convertie en tableau HTML
     var table = document.createElement("table");

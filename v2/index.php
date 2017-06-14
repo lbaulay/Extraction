@@ -11,7 +11,7 @@
     <body>
 
         <div id="date">
-            <button class="masquerAccordeon" status="off"><<</button>
+            <button class="masquerAccordeon" status="off">Masquer le menu</button>
 <?php
 define("URL", "../date"); // On part du repertoire /date et on recherche les sous dossiers
 // On crée l'arborescence
