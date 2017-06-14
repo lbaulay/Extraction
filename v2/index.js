@@ -5,13 +5,12 @@
  */
 const URL = "../date";
 
-$(".arbo>a").on("click",function(){
-    console.log($(this).parent());
+$(".arbo>a").on("click",function(){ // Role d'acoordeon
     var elem = $(this).parent().children('.sousDossier')[0];
     elem.style.display == "block" ? elem.style.display = "none" : elem.style.display = "block";
 });
 
-$(".fichier").on("click",function(){
+$(".fichier").on("click",function(){// Role d'affichage du fichier csv selectionné
     var elem = $(this);
     var nomFichier = elem.data("nom-fichier");
     var date = elem.data("date");
@@ -34,7 +33,21 @@ $(".fichier").on("click",function(){
     });
 });
 
-function ArrayToTab(arrayData) {
+$(".masquerAccordeon").on("click",function(){
+    if($(this).attr("status")==="off"){
+        $(".menu").css('display', "none");
+        $(this).attr("status","on");
+        $(this).innerHTML = ">>";
+    } else {
+        console.log("ok");
+        $(".menu").css('display', "block");
+        $(this).attr("status","off");
+        $(this).innerHTML = ">>";
+    }
+});
+
+
+function ArrayToTab(arrayData) { // Prend en argument un Array avec les valeurs CSV et le convertie en tableau HTML
     var table = document.createElement("table");
     table.setAttribute("class","tabCSV");
     var line = '<tr id="ligne1">';
