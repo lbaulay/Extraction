@@ -5,7 +5,7 @@
  */
 const URL = "../date";
 
-
+/*
 function onClick(id){
     var elem = document.getElementById(id);
 
@@ -16,12 +16,12 @@ function onClick(id){
     
     else if (elem.className == "fichier") {
         /* Si tabCSV existe deja on le supprime avant d'afficher une nouvelle table*/
-        if (document.getElementsByClassName("tabCSV").length >0) {
+        /*if (document.getElementsByClassName("tabCSV").length >0) {
             document.getElementsByClassName("affichageInde")[0].removeChild(document.getElementsByClassName("tabCSV")[0]);
-        }
+        }*/
         
         /* On creer le tableau de previsualisation */
-        var parent = elem.parentNode.parentNode.id;
+       /* var parent = elem.parentNode.parentNode.id;
         Papa.parse(URL+"/"+id, {
             download: true,
             complete: function(results) {
@@ -31,14 +31,42 @@ function onClick(id){
                 document.getElementById("titreAffichage").innerHTML = texte;
                 var table = ArrayToTab(results.data);
                 /* On ajoute le tableau au DOM, en enfant de <div affichageInde */
-                
+                /*
                 div.appendChild(table);
             }
         });
         
     }
 }
+*/
 
+$(".arbo").on("click",function(){
+    this.style.display == "block" ? this.style.display = "none" : this.style.display = "block";
+});
+
+$(".fichier").on("click",function(){
+    var elem = this;
+    var nomFichier = elem.data("nom-fichier");
+    var date = elem.data("date");
+    if (document.getElementsByClassName("tabCSV").length >0) {
+        document.getElementsByClassName("affichageInde")[0].removeChild(document.getElementsByClassName("tabCSV")[0]);
+    }
+
+    /* On creer le tableau de previsualisation */
+    var parent = elem.parentNode.parentNode.id;
+    Papa.parse(URL+"/"+date+"/"+nomFichier, {
+        download: true,
+        complete: function(results) {
+            var div = document.getElementsByClassName("affichageInde")[0];
+            var texte = 'Ouvrir le fichier <a href="'+URL+"/"+date+"/"+nomFichier+'">' + parent+' - '+nomFichier+'</a></p>';
+            document.getElementById("titreAffichage").innerHTML = texte;
+            var table = ArrayToTab(results.data);
+            /* On ajoute le tableau au DOM, en enfant de <div affichageInde */
+
+            div.appendChild(table);
+        }
+    });
+});
 
 function ArrayToTab(arrayData) {
     var table = document.createElement("table");
