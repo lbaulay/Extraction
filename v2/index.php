@@ -14,57 +14,37 @@
             <button class="masquerAccordeon" status="off">Masquer le menu</button>
 <?php
 define("URL", "../date"); // On part du repertoire /date et on recherche les sous dossiers
-// On crée l'arborescence
-if ($dossier = opendir(URL)) :?>
-    <ul class="menu">
-<?php
-    $lstDir = array(); // Liste des dossiers trouvé utiliser pour afficher les dossier dans l'ordre alphabetique
-    while (false !== ($fichier = readdir($dossier))) {
-        if ($fichier == '.' || $fichier == '..') {
+define("PROFONDEUR_DOSSIER", 3);
+
+function debuggAlert($message)// TODO Fonction a retirer
+{
+    echo '<script type="text/javascript">alert("'.$message.'");</script>';
+}
+function parcoursRecursif($dir, $profondeur)
+{
+    $elem = array();
+    $lstReturn = array();
+
+    foreach (new DirectoryIterator($dir) as $repertoire) {
+
+        if ($repertoire->isDot()) {
             continue;
         }
-        $urlfichier = URL . '/' . $fichier;
-        if (is_dir($urlfichier)) {
-            $lstDir[] = $fichier;
+        if ($repertoire->isDir()) {
+            array_push($elem, parcoursRecursif($dir."/".$repertoire->getFilename(), $profondeur-1));
+        } else {
+            array_push($elem, $repertoire->getFilename());
         }
+
     }
-    closedir($dossier);
-    sort($lstDir);
+    sort($elem);
+    array_merge($lstReturn, $elem);
+    return $lstReturn;
+}
+
+$arborescence = parcoursRecursif(URL, PROFONDEUR_DOSSIER);
 
 
-    foreach ($lstDir as $dossierDate) : // On parcours la liste de dossier
-        $urlfichier = URL . '/' . $dossierDate;
-?>
-        <li class="arbo"><a href="#"><?=$dossierDate?></a>
-<?php
-        if ($sousDossier = opendir($urlfichier)) :
-            $listeFichierCSV = [];
-            // On ouvre les sous dossier et on affiche les fichiers qui y sont présent
-            ?>
-            <ul class="sousDossier">
-<?php
-            while (false !== ($fichierExtrait = readdir($sousDossier))) {
-                // on ne liste que les fichiers .csv
-                if (is_file($urlfichier . '/' . $fichierExtrait) && "csv" === substr($fichierExtrait, -3)) {
-                    $listeFichierCSV[] = $fichierExtrait;
-                }
-            }
-            sort($listeFichierCSV);
-            foreach ($listeFichierCSV as $fichierCSV) : ?>
-                <li><a class="fichier" data-date="<?=$dossierDate?>" data-nom-fichier="<?=$fichierCSV?>"><?=$fichierCSV?></a></li>
-<?php
-            endforeach;
-?>
-            </ul>
-<?php
-            closedir($sousDossier);
-        endif;
-    endforeach;
-?>
-        </li>
-<?php
-endif;
-echo "</ul>";
 ?>
         </div>
         <div class="affichageInde"><p id="titreAffichage"></p></div>
