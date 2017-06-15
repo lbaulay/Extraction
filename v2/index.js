@@ -6,14 +6,17 @@
 const URL = "../date";
 
 $(".arbo>a").on("click", function () { // Role d'accordeon
+    reduireAll(); // On reduit le(s) onglets deplié
+    var elem = $(this).parent().children('.sousDossier')[0];
+    elem.style.display = "block"; // On deplie l'onglet selectionné
+});
+
+function reduireAll(){
     for (var i=0;i<$(".arbo").children('.sousDossier').length;i++){
         var onglet = $(".arbo").children('.sousDossier');
         onglet[i].style.display = "none";
     }
-    var elem = $(this).parent().children('.sousDossier')[0];
-    elem.style.display = "block";
-});
-
+}
 $(".fichier").on("click", function () {// Role d'affichage du fichier csv selectionné
     var elem = $(this);
     var nomFichier = elem.data("nom-fichier");
@@ -70,7 +73,6 @@ function ArrayToTab(arrayData) { // Prend en argument un Array avec les valeurs 
             line += "<td>" + arrayData[i][j] + "</td>"; // Ecriture des cellules
         }
         numid = (numid + 1) % 2;
-
         i < arrayData.length - 2 ? line += "</tr><tr id=ligne" + numid + ">" : line += "</tr>";
     }
     table.innerHTML += line;
