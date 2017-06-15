@@ -40,10 +40,33 @@ function parcoursRecursif($dir, $profondeur)
     sort($elem);
     array_merge($lstReturn, $elem);
     return $lstReturn;
+
+    /* l'arborescence a la forme suivante :
+     * [
+     *      FileName,   [ (vide si FileName ne correspond pas a un fichier
+     *                      [subFileName,  []],
+     *                      [subFileName2, [
+     *                                          [subSubFileName,    []]
+     *                                     ]
+     *                      ]
+     * ]
+     * l'arborescence est une liste de longueur deux, où le premier élément correspond au nom du fichier/dossier
+     * et le deuxieme élément correspond à une liste d'arborescence, si celle ci est de longueur 0, alors l'élément est un dossier
+     */
 }
 
 $arborescence = parcoursRecursif(URL, PROFONDEUR_DOSSIER);
 
+function generateArborescenceDOM($arborescenceArray)
+{
+    for ($i = 0; i<count($arborescenceArray[1]); $i++) :
+        $nomFichier = $arborescenceArray[0]
+        $element = $arborescenceArray[1];
+        if ():
+
+        endif;
+    endfor;
+}
 
 ?>
         </div>
