@@ -1,0 +1,92 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 1 juin 2017, 17:15:45
+    Author     : lbaulay
+*/
+
+body {
+    font-size: 14px;
+}
+ul{
+    list-style-type:none;
+}
+#date{
+    float:left;
+    width: 20%;
+    font-size: 16px;
+    margin: 0px;
+}
+.menu{
+    left:1px;
+    border-collapse: collapse;
+}
+.arbo{
+    border-style: solid;
+    border-color: black;
+    background-color: lightskyblue;
+    border-radius: 10px;
+    padding: 5px;
+    text-align: center;
+}
+.arbo>a {
+    text-decoration: none;
+    color: black;
+}
+.sousDossier {
+    border-top-style: solid;
+    border-top-color: black;
+    padding: 7px;
+    display : none;
+}
+.sousDossier li {
+    list-style-type: "- ";
+}
+.sousDossier>li>a {
+    text-decoration: none;
+}
+.fichier {
+    cursor: pointer;
+}
+.sousDossier>li>a:hover{
+    color: white;
+    background-color: black;
+}
+
+
+.affichageInde{
+    width: 70%;
+    height: 500px;
+    float: right;
+    overflow: auto;
+}
+.tabCSV{
+    border-collapse: collapse;
+}
+.tabCSV tr{
+    border-color: black;
+    border-style: solid;
+}
+.tabCSV td{
+    border-color: #707070;
+    border-style: solid;
+    border-bottom: none;
+    border-top: none;
+    font-size: 14px;
+}
+.tabCSV td:hover{
+    background-color: #CECECE;
+}
+#ligne0{
+    background-color: highlight;
+}
+#ligne1 {
+    background-color: #F9F9F9;
+}
+
+
+
+
