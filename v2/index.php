@@ -119,7 +119,7 @@ class Element {
     {
 
 
-        $nomFichier = $this->getName();
+        $nomFichier = str_replace($parentDir."/", "", $this->getName());
         $element = $this->getListElem();
         $nbElement = count($element);
         if ($this->isFile()) :
@@ -128,7 +128,7 @@ class Element {
             ?>
 
                 <li>
-                    <a class="fichier" data-date="<?= $parentDir?>" data-nom-fichier="<?= str_replace($parentDir."/", "", $nomFichier)?>"href="#">
+                    <a class="fichier" data-parent-directory="<?= $parentDir?>" data-nom-fichier="<?= str_replace($parentDir."/", "", $nomFichier)?>"href="#">
                         <?= str_replace($parentDir."/", "", $nomFichier);?>
                     </a>
                 </li>
@@ -142,7 +142,8 @@ class Element {
                     <ul class="sousDossier">
             <?php
                 for ($i = 0; $i<$nbElement; $i++) {
-                    $element[$i]->getArborescenceDOM(str_replace($parentDir."/", "", $nomFichier), $profondeur-1, $extension);
+                    
+                    $element[$i]->getArborescenceDOM($parentDir."/".$nomFichier, $profondeur-1, $extension);
 
                 }?>
                     </ul>

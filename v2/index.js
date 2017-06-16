@@ -28,17 +28,17 @@ function reduireAll(profondeur){
 $(".fichier").on("click", function () {// Role d'affichage du fichier csv selectionné
     var elem = $(this);
     var nomFichier = elem.data("nom-fichier");
-    var date = elem.data("date");
+    var parentDir = elem.data("parent-directory");
     if (document.getElementsByClassName("tabCSV").length > 0) {
         document.getElementsByClassName("affichageInde")[0].removeChild(document.getElementsByClassName("tabCSV")[0]);
     }
 
     /* On creer le tableau de previsualisation */
-    Papa.parse(URL + "/" + date + "/" + nomFichier, {
+    Papa.parse(URL + "/" + parentDir + "/" + nomFichier, {
         download: true,
         complete: function (results) {
             var div = document.getElementsByClassName("affichageInde")[0];
-            var texte = 'Ouvrir le fichier <a href="' + URL + "/" + date + "/" + nomFichier + '">' + date + ' - ' + nomFichier + '</a></p>';
+            var texte = 'Ouvrir le fichier <a href="' + URL + "/" + parentDir + "/" + nomFichier + '">' + parentDir + ' - ' + nomFichier + '</a></p>';
             document.getElementById("titreAffichage").innerHTML = texte;
             var table = ArrayToTab(results.data);
             /* On ajoute le tableau au DOM, en enfant de <div affichageInde */
