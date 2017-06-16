@@ -5,15 +5,23 @@
  */
 const URL = "../date";
 
-$(".arbo>a").on("click", function () { // Role d'accordeon
-    reduireAll(); // On reduit le(s) onglets deplié
+window.onload = function(){ // lors de l'ouverture de la page, ouvre le premier volet de l'accordeon    
+    if($(".arbo").length>0){
+        $(".arbo:first>.sousDossier")[0].style.display = "block";
+    }
+};
+
+
+$(".arbo>a").on("click", function () { // Role d'accordeon   
+    var profondeur =$(this).parent().attr("class").split(' ')[1];
+    reduireAll(profondeur); // On reduit le(s) onglets deplié
     var elem = $(this).parent().children('.sousDossier')[0];
     elem.style.display = "block"; // On deplie l'onglet selectionné
 });
 
-function reduireAll(){
-    for (var i=0;i<$(".arbo").children('.sousDossier').length;i++){
-        var onglet = $(".arbo").children('.sousDossier');
+function reduireAll(profondeur){
+    for (var i=0;i<$(".arbo."+profondeur).length;i++){
+        var onglet = $(".arbo."+profondeur).children('.sousDossier');
         onglet[i].style.display = "none";
     }
 }
@@ -34,8 +42,14 @@ $(".fichier").on("click", function () {// Role d'affichage du fichier csv select
             document.getElementById("titreAffichage").innerHTML = texte;
             var table = ArrayToTab(results.data);
             /* On ajoute le tableau au DOM, en enfant de <div affichageInde */
-
             div.appendChild(table);
+            $(".tabCSV").tablesorter({
+               theme : 'blue',
+               sortInitialOrder: 'desc',
+               headerTemplate : '{content}{icon}',
+               
+            }); 
+            
         }
     });
 });
@@ -64,16 +78,23 @@ function reductionTab() {
 
 function ArrayToTab(arrayData) { // Prend en argument un Array avec les valeurs CSV et le convertie en tableau HTML
     var table = document.createElement("table");
-    table.setAttribute("class", "tabCSV");
-    var line = '<tr id="ligne1">';
+    table.setAttribute("class", "tabCSV tablesorter");
+    var line = '<thead><tr id="ligne1">';
+    var isHeader = true;// si on traite la premiere ligne
     var numid = 1; // POur alterner l'ID de la ligne, et donc alterner les couleurs
     var i;
     for (var i = 0; i < arrayData.length - 1; i++) {
         for (var j = 0; j < arrayData[i].length; j++) {
-            line += "<td>" + arrayData[i][j] + "</td>"; // Ecriture des cellules
+            isHeader ? line += "<th>" + arrayData[i][j] + "</th>" : line += "<td>" + arrayData[i][j] + "</td>"; // Ecriture des cellules
         }
         numid = (numid + 1) % 2;
-        i < arrayData.length - 2 ? line += "</tr><tr id=ligne" + numid + ">" : line += "</tr>";
+        if (isHeader)
+        {
+            i < arrayData.length - 2 ? line += "</tr></thead><tbody><tr id=ligne" + numid + ">" : line += "</tr></thead>";
+            isHeader = false;
+        } else {
+            i < arrayData.length - 2 ? line += "</tr><tr id=ligne" + numid + ">" : line += "</tr></tbody>";
+        }
     }
     table.innerHTML += line;
     return table;

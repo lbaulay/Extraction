@@ -77,6 +77,13 @@ ul{
     border-top: none;
     font-size: 14px;
 }
+
+.tabCSV th {
+    border-color: #707070;
+    border-style: solid;
+    border-width: 4px;
+    cursor: pointer;
+}
 .tabCSV td:hover{
     background-color: #CECECE;
 }
