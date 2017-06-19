@@ -17,16 +17,21 @@
             <ul class="menu">
 <?php
 define("URL", "../date"); // On part du repertoire /date et on recherche les sous dossiers
-define("PROFONDEUR_DOSSIER", 3);
+define("PROFONDEUR_DOSSIER", -1);
 
 function debuggAlert($message)// TODO Fonction a retirer
 {
     echo '<script type="text/javascript">alert("'.$message.'");</script>';
 }
-class Element {
+class Arborescence {
     public $nom;
+
+    /**
+     *
+     * @var array
+     */
     public $listElem;
-    public $directory;
+    public $isDirectory;
     function __construct($name, $listElem, $directory)
     {
         $this->setName($name);
@@ -35,6 +40,7 @@ class Element {
     }
     public function getName()
     {
+
         return $this->nom;
     }
     public function getListElem()
@@ -44,7 +50,7 @@ class Element {
 
     public function isDirectory()
     {
-        return $this->directory;
+        return $this->isDirectory;
     }
     public function isFile()
     {
@@ -55,11 +61,14 @@ class Element {
     }
     public function setName($name)
     {
+        if (gettype($name)!= "string"){
+            throw new InvalidArgumentException;
+        }
         $this->nom = $name;
     }
     public function setDirectory($directory)
     {
-        $this->directory = $directory;
+        $this->isDirectory = $directory;
     }
     public function setListElem($listElem)
     {
@@ -68,10 +77,19 @@ class Element {
 
 
 
-
+    /**
+     * Cette fonction permet de creer un objet Arborescence representant l'arborescence du chemin $dir passé en argument, $profondeur correspond a quelle profondeur les dossiers sont affiché
+     * @param string $dir
+     * @param integer $profondeur
+     * @return \Arborescence
+     * @throws InvalidArgumentException
+     */
     public static function parcoursRecursif($dir, $profondeur)
     {
         $elem = array();
+           if (gettype($profondeur)!= "integer") {
+               throw new InvalidArgumentException;
+           }
 
         foreach (new DirectoryIterator($dir) as $repertoire) {
 
@@ -79,46 +97,69 @@ class Element {
                 continue;
             }
             if ($repertoire->isDir()) {
-                if ($profondeur>0) {
+                if ($profondeur!=0) {
                     $newdir = $dir."/".$repertoire->getFilename();
 
-                    array_push($elem, Element::parcoursRecursif($newdir, $profondeur-1));
+                    array_push($elem, Arborescence::parcoursRecursif($newdir, $profondeur-1));
                 }
             } else {
-                $elemFichier = new Element($repertoire->getFilename(), array(), false);
+                $elemFichier = new Arborescence($repertoire->getFilename(), array(), false);
                 array_push($elem, $elemFichier);
             }
 
         }
         sort($elem);
-        $newElem = new Element($dir, $elem, true);
+        $newElem = new Arborescence($dir, $elem, true);
         return $newElem;
 
         /* l'arborescence a la forme suivante :
          * [
-         *      FileName,   [ (vide si FileName ne correspond pas a un fichier
+         *      FileName,   [ (vide si FileName ne correspond pas a un dossier
          *                      [subFileName,  []],
          *                      [subFileName2, [
          *                                          [subSubFileName,    []]
          *                                     ]
          *                      ]
          * ]
-         * l'arborescence est une liste de longueur deux, où le premier élément correspond au nom du fichier/dossier
-         * et le deuxieme élément correspond à une liste d'arborescence, si celle ci est de longueur 0, alors l'élément est un dossier
+         * l'arborescence est un objet "Element" ayant pour attribut, un string nom, une liste d'autre Element et un boolean disant si c'est un dossier (true) ou un fichier(false), où le premier élément correspond au nom du fichier/dossier
+         * On peut utiliser la methode generateArborescence afin de la créer en HTML
          */
     }
-    public function generateArborescenceDOM($profondeur, $extension = "") // Prend la racine de l'arborescence
+
+    /**
+     * Cette fonction permet de generer en HTML l'arborescence (sans le premier repertoire de l'arborescence) elle prend en argument $profondeur qui correspond jusqu'a quelle profondeur les dossiers sont affiché et extension qui permet d'afficher uniquement les fichier ayant l'extension demandé.
+     * @param integer $profondeur
+     * @param string $extension
+     * @throws InvalidArgumentException
+     */
+    public function generateArborescenceDOM($profondeur, $extension = "")
     {
+        if (gettype($profondeur)!= "integer") {
+               throw new InvalidArgumentException;
+        }
         $element = $this->getListElem();
         $nbElement = count($element);
         for ($i = 0; $i<$nbElement; $i++) {
             $element[$i]->getArborescenceDOM($this->getName(), $profondeur, $extension);
         }
     }
-    public function getArborescenceDOM($parentDir, $profondeur, $extension) // affiche l'arborescence sans la racine
+
+
+    /**
+     * Cette fonction permet de generer en HTML l'arborescence (avec premier repertoire de l'arborescence) elle prend en argument $parentDir qui correspond au chemin du dossier parent du fichier/dossier actuel, $profondeur qui correspond jusqu'a quelle profondeur les dossier sont affiché et extension qui permet d'afficher uniquement les fichier ayant l'extension demandé.
+     * @param string $parentDir
+     * @param integer $profondeur
+     * @param string $extension
+     * @return void
+     * @throws InvalidArgumentException
+     */
+    public function getArborescenceDOM($parentDir, $profondeur, $extension)
     {
 
 
+        if (gettype($profondeur)!= "integer"){
+               throw new InvalidArgumentException;
+        }
         $nomFichier = str_replace($parentDir."/", "", $this->getName());
         $element = $this->getListElem();
         $nbElement = count($element);
@@ -136,13 +177,13 @@ class Element {
             endif;
             return;
         else :
-            if ($profondeur>=0) :?>
+            if ($profondeur!=0) :?>
                 <li class="arbo <?=$profondeur?>">
                     <a href="#"><?= str_replace($parentDir."/", "", $nomFichier) ?></a>
                     <ul class="sousDossier">
             <?php
                 for ($i = 0; $i<$nbElement; $i++) {
-                    
+
                     $element[$i]->getArborescenceDOM($parentDir."/".$nomFichier, $profondeur-1, $extension);
 
                 }?>
@@ -155,7 +196,7 @@ class Element {
 }
 
 
-$arborescence = Element::parcoursRecursif(URL, PROFONDEUR_DOSSIER);
+$arborescence = Arborescence::parcoursRecursif(URL, PROFONDEUR_DOSSIER);
 //$arborescence->generateArborescenceDOM(PROFONDEUR_DOSSIER); // Permet de creer une arborescence de profondeur = PROFONDEUR_DOSSIER a partir de la racine
 $arborescence->generateArborescenceDOM(PROFONDEUR_DOSSIER, ".csv"); //Permet de ne lister que les fichiers .csv et les repertoires de profondeur PROFONDEUR_DOSSIER a partir de la racine
 ?>
