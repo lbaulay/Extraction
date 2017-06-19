@@ -11,7 +11,8 @@
  *
  * @author lbaulay
  */
-class Arborescence {
+class Arborescence
+{
 
     /**
      * Nom du fichier/dossier

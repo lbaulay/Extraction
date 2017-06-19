@@ -27,7 +27,7 @@ function debuggAlert($message)// TODO Fonction a retirer
 
 
 
-$arborescence = Arborescence::parcoursRecursif(URL, PROFONDEUR_DOSSIER);
+$arborescence = \Arborescence::parcoursRecursif(URL, PROFONDEUR_DOSSIER);
 //$arborescence->generateArborescenceDOM(PROFONDEUR_DOSSIER); // Permet de creer une arborescence de profondeur = PROFONDEUR_DOSSIER a partir de la racine
 $arborescence->generateArborescenceDOM(PROFONDEUR_DOSSIER, ".csv"); //Permet de ne lister que les fichiers .csv et les repertoires de profondeur PROFONDEUR_DOSSIER a partir de la racine
 ?>
