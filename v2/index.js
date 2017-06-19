@@ -54,6 +54,8 @@ $(".fichier").on("click", function () {// Role d'affichage du fichier csv select
     });
 });
 
+
+
 $(".masquerAccordeon").on("click", function () { // Role d'affichage du menu si le bouton est cliqué
     if ($(this).attr("status") === "off") {// Si le menu est affiché, on augmente la taille du div contenant le tableau de visualisation CSV, on masque le menu et on change le titre du bouton
         fullTab();
@@ -76,12 +78,19 @@ function reductionTab() {
     $(".affichageInde").css("width", "70%");
 }
 
+
+
+/**
+ * 
+ * @param {array} arrayData
+ * @returns {Element|ArrayToTab.table}
+ */
 function ArrayToTab(arrayData) { // Prend en argument un Array avec les valeurs CSV et le convertie en tableau HTML
     var table = document.createElement("table");
     table.setAttribute("class", "tabCSV tablesorter");
     var line = '<thead><tr id="ligne1">';
     var isHeader = true;// si on traite la premiere ligne
-    var numid = 1; // POur alterner l'ID de la ligne, et donc alterner les couleurs
+    var numid = 1; // Pour alterner l'ID de la ligne, et donc alterner les couleurs
     var i;
     for (var i = 0; i < arrayData.length - 1; i++) {
         for (var j = 0; j < arrayData[i].length; j++) {
