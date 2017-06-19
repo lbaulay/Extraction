@@ -34,11 +34,11 @@ $(".fichier").on("click", function () {// Role d'affichage du fichier csv select
     }
 
     /* On creer le tableau de previsualisation */
-    Papa.parse(URL + "/" + parentDir + "/" + nomFichier, {
+    Papa.parse(parentDir + "/" + nomFichier, {
         download: true,
         complete: function (results) {
             var div = document.getElementsByClassName("affichageInde")[0];
-            var texte = 'Ouvrir le fichier <a href="' + URL + "/" + parentDir + "/" + nomFichier + '">' + parentDir + ' - ' + nomFichier + '</a></p>';
+            var texte = 'Ouvrir le fichier <a href="' +parentDir + "/" + nomFichier + '">' + parentDir + ' - ' + nomFichier + '</a></p>';
             document.getElementById("titreAffichage").innerHTML = texte;
             var table = ArrayToTab(results.data);
             /* On ajoute le tableau au DOM, en enfant de <div affichageInde */
