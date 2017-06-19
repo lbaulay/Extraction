@@ -118,7 +118,7 @@ class Arborescence {
     }
 
     /**
-     * Cette fonction permet de generer en HTML l'arborescence (sans le premier repertoire de l'arborescence) elle prend en argument $profondeur qui correspond jusqu'a quelle profondeur les dossiers sont affiché et extension qui permet d'afficher uniquement les fichier ayant l'extension demandé. Cette fonction est a utiliser dans une balises
+     * Cette fonction permet de generer en HTML l'arborescence (sans le premier repertoire de l'arborescence) elle prend en argument $profondeur qui correspond jusqu'a quelle profondeur les dossiers sont affiché et extension qui permet d'afficher uniquement les fichier ayant l'extension demandé. Cette fonction est a utiliser dans une balises ul
      * @param integer $profondeur
      * @param string $extension
      * @throws InvalidArgumentException
@@ -137,7 +137,7 @@ class Arborescence {
 
 
     /**
-     * Cette fonction permet de generer en HTML l'arborescence (avec premier repertoire de l'arborescence) elle prend en argument $parentDir qui correspond au chemin du dossier parent du fichier/dossier actuel, $profondeur qui correspond jusqu'a quelle profondeur les dossier sont affiché et extension qui permet d'afficher uniquement les fichier ayant l'extension demandé. Cette fonction est a utiliser entre deux balises <ul></ul>
+     * Cette fonction permet de generer en HTML l'arborescence (avec premier repertoire de l'arborescence) elle prend en argument $parentDir qui correspond au chemin du dossier parent du fichier/dossier actuel, $profondeur qui correspond jusqu'a quelle profondeur les dossier sont affiché et extension qui permet d'afficher uniquement les fichier ayant l'extension demandé. Cette fonction est a utiliser dans une balises ul
      * @param string $parentDir
      * @param integer $profondeur
      * @param string $extension
